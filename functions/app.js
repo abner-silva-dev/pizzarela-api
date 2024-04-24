@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const pizzasRoute = require('./routes/pizzasRoutes');
+const pizzasRoute = require('./../routes/pizzasRoutes');
 const cors = require('cors');
 
 // Global middleware
@@ -11,6 +11,6 @@ app.options('*', cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/v1/pizzas', pizzasRoute);
+app.use('/pizzas', pizzasRoute);
 
 module.exports = app;
