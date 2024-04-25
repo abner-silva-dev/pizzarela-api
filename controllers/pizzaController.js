@@ -18,7 +18,7 @@ const getPizzas = async (path) => {
 
 exports.getCheckoutSession = async (req, res, next) => {
   try {
-    let data = await getPizzas('./dev-data/pizza-data.json');
+    let data = await getPizzas('./../dev-data/pizza-data.json');
     data = JSON.parse(data);
 
     const order = req.body;
@@ -71,7 +71,7 @@ exports.getCheckoutSession = async (req, res, next) => {
 
 exports.getAllPizzas = async (req, res, next) => {
   try {
-    let data = await getPizzas('./dev-data/pizza-data.json');
+    let data = await getPizzas('./../dev-data/pizza-data.json');
     data = JSON.parse(data);
 
     res.status(200).json({
@@ -90,7 +90,7 @@ exports.getAllPizzas = async (req, res, next) => {
 
 exports.getOnePizza = async (req, res, next) => {
   try {
-    let data = await getPizzas('./dev-data/pizza-data.json');
+    let data = await getPizzas('./../dev-data/pizza-data.json');
     data = JSON.parse(data);
 
     const pizzaId = +req.params.id;
