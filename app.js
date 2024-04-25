@@ -12,5 +12,11 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/pizzas', pizzasRoute);
+app.use('/', (req, res) => res.end('Server live'));
+
+app.all('*', (req, res, next) => {
+  console.log('page not found!');
+  req.statusCode(404).json({ status: 'fail', message: 'Page not found' });
+});
 
 module.exports = app;

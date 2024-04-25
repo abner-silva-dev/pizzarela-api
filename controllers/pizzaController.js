@@ -1,18 +1,26 @@
 const fs = require('node:fs');
-
-let data;
-
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-try {
-  data = fs.readFileSync('./dev-data/pizza-data.json', 'utf8');
-  data = JSON.parse(data);
-} catch (err) {
-  console.error(err.message);
-}
+const getPizzas = async (path) => {
+  try {
+    const data = await new Promise((resolve, reject) => {
+      fs.readFile(path, 'utf8', (err, data) => {
+        if (err) reject(err);
+        resolve(data);
+      });
+    });
+
+    return data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
 
 exports.getCheckoutSession = async (req, res, next) => {
   try {
+    let data = await getPizzas('./dev-data/pizza-data.json');
+    data = JSON.parse(data);
+
     const order = req.body;
 
     // const pizzasSelected = order.cart.map(
@@ -53,7 +61,7 @@ exports.getCheckoutSession = async (req, res, next) => {
       },
     });
   } catch (err) {
-    console.log(err);
+    console.error(`🔥🔥${err.message}`);
     res.status(500).json({
       status: 'fail',
       message: err.message,
@@ -61,23 +69,45 @@ exports.getCheckoutSession = async (req, res, next) => {
   }
 };
 
-exports.getAllPizzas = (req, res, next) => {
-  res.status(200).json({
-    status: 'success',
-    result: data?.pizzas.length,
-    pizzas: data.pizzas,
-  });
+exports.getAllPizzas = async (req, res, next) => {
+  try {
+    let data = await getPizzas('./dev-data/pizza-data.json');
+    data = JSON.parse(data);
+
+    res.status(200).json({
+      status: 'success',
+      result: data?.pizzas?.length,
+      pizzas: data.pizzas,
+    });
+  } catch (err) {
+    console.error(`🔥🔥${err.message}`);
+    res.status(500).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
 };
 
-exports.getOnePizza = (req, res, next) => {
-  const pizzaId = +req.params.id;
-  const pizza = data.pizzas?.find((pizza) => pizza.id === pizzaId);
+exports.getOnePizza = async (req, res, next) => {
+  try {
+    let data = await getPizzas('./dev-data/pizza-data.json');
+    data = JSON.parse(data);
 
-  if (!pizza)
-    res.status(404).json({ status: 'error', message: 'Pizza no encontrada' });
+    const pizzaId = +req.params.id;
+    const pizza = data.pizzas?.find((pizza) => pizza.id === pizzaId);
 
-  res.status(200).json({
-    status: 'success',
-    data: pizza,
-  });
+    if (!pizza)
+      res.status(404).json({ status: 'error', message: 'Pizza no encontrada' });
+
+    res.status(200).json({
+      status: 'success',
+      data: pizza,
+    });
+  } catch (err) {
+    console.error(`🔥🔥${err.message}`);
+    res.status(500).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
 };
