@@ -1,4 +1,5 @@
 const fs = require('node:fs');
+const { dirname } = require('node:path');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const getPizzas = async (path) => {
@@ -18,7 +19,7 @@ const getPizzas = async (path) => {
 
 exports.getCheckoutSession = async (req, res, next) => {
   try {
-    let data = await getPizzas('./../dev-data/pizza-data.json');
+    let data = await getPizzas('./pizza-data.json');
     data = JSON.parse(data);
 
     const order = req.body;
@@ -71,7 +72,7 @@ exports.getCheckoutSession = async (req, res, next) => {
 
 exports.getAllPizzas = async (req, res, next) => {
   try {
-    let data = await getPizzas('./../dev-data/pizza-data.json');
+    let data = await getPizzas(`./pizza-data.json`);
     data = JSON.parse(data);
 
     res.status(200).json({
