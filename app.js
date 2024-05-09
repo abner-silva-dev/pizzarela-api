@@ -5,8 +5,13 @@ const visitRoute = require('./routes/visitsRoutes');
 const cors = require('cors');
 
 // Global middleware
+
+const corsOptions = {
+  origin: 'https://pizzarela.netlify.app/',
+};
+
+app.use(cors(corsOptions));
 app.options('*', cors());
-app.use(cors());
 
 // Body json
 app.use(express.json());
