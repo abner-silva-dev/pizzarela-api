@@ -43,7 +43,7 @@ exports.getNumVisits = async (req, res, next) => {
   try {
     let data = await getJSONData(filePath);
     data = JSON.parse(data);
-    console.log(data);
+
     res.status(200).json({
       status: 'success',
       numVisits: data.numVisits,
@@ -62,10 +62,7 @@ exports.setNumVisits = async (req, res, next) => {
     let visits = await getJSONData(filePath);
     visits = JSON.parse(visits);
 
-    console.log(visits);
-
     let data = await setVisits(filePath, visits.numVisits + 1);
-    console.log(data);
 
     res.status(200).json({
       status: 'success',

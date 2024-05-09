@@ -5,8 +5,8 @@ const visitRoute = require('./routes/visitsRoutes');
 const cors = require('cors');
 
 // Global middleware
-app.use(cors());
 app.options('*', cors());
+app.use(cors());
 
 // Body json
 app.use(express.json());
