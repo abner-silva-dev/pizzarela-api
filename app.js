@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const pizzasRoute = require('./routes/pizzasRoutes');
+const visitRoute = require('./routes/visitsRoutes');
 const cors = require('cors');
 
 // Global middleware
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/pizzas', pizzasRoute);
+app.use('/api/v1/visits', visitRoute);
 app.use('/', (req, res) => res.end('Server live'));
 
 app.all('*', (req, res, next) => {
