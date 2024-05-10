@@ -6,11 +6,7 @@ const cors = require('cors');
 
 // Global middleware
 
-const corsOptions = {
-  origin: 'https://pizzarela.netlify.app/',
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.options('*', cors());
 
 // Body json
