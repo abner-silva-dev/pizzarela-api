@@ -17,6 +17,8 @@ const getJSONData = async (path) => {
   }
 };
 
+let numVisitGlobal = 1;
+
 const setVisits = (path, data) => {
   const objVisit = {
     numVisits: data,
@@ -37,12 +39,16 @@ const setVisits = (path, data) => {
 
 exports.getNumVisits = async (req, res, next) => {
   try {
-    let data = await getJSONData(filePath);
-    data = JSON.parse(data);
+    // let data = await getJSONData(filePath);
+    // data = JSON.parse(data);
 
+    // res.status(200).json({
+    //   status: 'success',
+    //   numVisits: data.numVisits,
+    // });
     res.status(200).json({
       status: 'success',
-      numVisits: data.numVisits,
+      numVisits: numVisitGlobal,
     });
   } catch (err) {
     console.error(`🔥🔥${err.message}`);
@@ -55,16 +61,18 @@ exports.getNumVisits = async (req, res, next) => {
 
 exports.setNumVisits = async (req, res, next) => {
   try {
-    let visits = await getJSONData(filePath);
-    visits = JSON.parse(visits);
+    numVisitGlobal++;
+    // let visits = await getJSONData(filePath);
+    // visits = JSON.parse(visits);
 
-    let data = setVisits(filePath, visits.numVisits + 1);
-    console.log(visits);
-    console.log(data);
+    // let data = setVisits(filePath, visits.numVisits + 1);
+
+    // console.log(visits);
+    // console.log(data);
 
     res.status(201).json({
       status: 'success',
-      numVisits: data.numVisits,
+      numVisits: numVisitGlobal,
     });
   } catch (err) {
     console.error(`🔥🔥${err.message}`);
