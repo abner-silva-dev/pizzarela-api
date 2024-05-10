@@ -17,23 +17,19 @@ const getJSONData = async (path) => {
   }
 };
 
-const setVisits = async (path, data) => {
+const setVisits = (path, data) => {
   const objVisit = {
     numVisits: data,
   };
 
   try {
-    const data = await new Promise((resolve, reject) => {
-      fs.writeFile(path, JSON.stringify(objVisit), (err) => {
-        if (err) {
-          console.error(err);
-        } else {
-          resolve(objVisit);
-        }
-      });
+    fs.writeFile(path, JSON.stringify(objVisit), (err) => {
+      if (err) {
+        console.error(err);
+      }
     });
 
-    return data;
+    return objVisit;
   } catch (err) {
     throw new Error(err.message);
   }
@@ -62,7 +58,7 @@ exports.setNumVisits = async (req, res, next) => {
     let visits = await getJSONData(filePath);
     visits = JSON.parse(visits);
 
-    let data = await setVisits(filePath, visits.numVisits + 1);
+    let data = setVisits(filePath, visits.numVisits + 1);
 
     res.status(200).json({
       status: 'success',
