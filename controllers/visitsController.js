@@ -59,8 +59,10 @@ exports.setNumVisits = async (req, res, next) => {
     visits = JSON.parse(visits);
 
     let data = setVisits(filePath, visits.numVisits + 1);
+    console.log(visits);
+    console.log(data);
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       numVisits: data.numVisits,
     });
